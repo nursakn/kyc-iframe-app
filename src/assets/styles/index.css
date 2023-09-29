@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  :root {
+    --white: #FFF;
+
+    --black: #1C2023;
+
+    --gray-1: #F2F3F7;
+    --gray-2: #D7DAE3;
+    --gray-3: #1C202399;
+
+    --blue: #357BF7;
+
+    --red: #FF0045;
+    --red-soft: #FF00451A;
+    --red-destructive: #EB003F;
+
+    --border: var(--gray-3);
+
+    --radius: 10px;
+  }
+}

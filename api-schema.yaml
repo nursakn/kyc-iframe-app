@@ -1,0 +1,524 @@
+openapi: 3.0.1
+info:
+  title: KycService.Pages.Api
+  version: '1.0'
+paths:
+  /api/identification-methods:
+    post:
+      tags:
+        - IdentificationMethod
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAvailablePartnerIdentificationMethodListItem'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAvailablePartnerIdentificationMethodListItem'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAvailablePartnerIdentificationMethodListItem'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft:
+    post:
+      tags:
+        - IdentificationRequestDraft
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: identificationMethodId
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateIdentificationRequestDraftResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft/create-identification-request/{identificationRequestDraftId}:
+    post:
+      tags:
+        - IdentificationRequestDraft
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: identificationRequestDraftId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateIdentificationRequestByDraftResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '412':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft/check-result:
+    get:
+      tags:
+        - IdentificationRequestDraft
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetIdentificationRequestDraftResultResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft/{identificationRequestDraftId}/add-document:
+    post:
+      tags:
+        - IdentificationRequestDraftDocument
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: identificationRequestDraftId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIdentificationRequestDocumentRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateIdentificationRequestDocumentRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateIdentificationRequestDocumentRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft/{identificationRequestDraftId}/delete-document/{documentId}:
+    delete:
+      tags:
+        - IdentificationRequestDraftDocument
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: identificationRequestDraftId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: documentId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft/{identificationRequestDraftId}/documents:
+    get:
+      tags:
+        - IdentificationRequestDraftDocument
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: identificationRequestDraftId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetIdentificationRequestDraftDocumentListItem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/identification-request-draft/{identificationRequestDraftId}/add-document-scan/{documentId}:
+    post:
+      tags:
+        - IdentificationRequestDraftDocument
+      parameters:
+        - name: identificationToken
+          in: header
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: identificationRequestDraftId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: documentId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+            encoding:
+              files:
+                style: form
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+components:
+  schemas:
+    AuthenticationDetailsModel:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        url:
+          type: string
+          nullable: true
+      additionalProperties: false
+    CreateIdentificationRequestByDraftResponse:
+      type: object
+      properties:
+        identificationRequestId:
+          type: string
+          format: uuid
+        externalIdentificationRequestId:
+          type: string
+          nullable: true
+        authenticationDetails:
+          $ref: '#/components/schemas/AuthenticationDetailsModel'
+      additionalProperties: false
+    CreateIdentificationRequestDocumentFieldModel:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+      additionalProperties: false
+    CreateIdentificationRequestDocumentRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateIdentificationRequestDocumentFieldModel'
+          nullable: true
+      additionalProperties: false
+    CreateIdentificationRequestDraftResponse:
+      type: object
+      properties:
+        identificationRequestDraftId:
+          type: string
+          format: uuid
+        identificationMethodId:
+          type: string
+          format: uuid
+        requiredDocumentTypes:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    GetAvailablePartnerIdentificationMethodListItem:
+      type: object
+      properties:
+        identificationMethodId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        logoUrl:
+          type: string
+          format: uri
+          nullable: true
+      additionalProperties: false
+    GetIdentificationRequestDraftDocumentListItem:
+      type: object
+      properties:
+        documentId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          nullable: true
+      additionalProperties: false
+    GetIdentificationRequestDraftResultResponse:
+      type: object
+      properties:
+        identificationRequestDraftId:
+          type: string
+          format: uuid
+        identificationMethodId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          nullable: true
+        authenticationDetails:
+          $ref: '#/components/schemas/AuthenticationDetailsModel'
+        successUrl:
+          type: string
+          nullable: true
+        failUrl:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: {}
